@@ -5,7 +5,7 @@ build-job:
   script:
     - |
       source /opt/ros/humble/setup.bash
-      rosdep update
+      #rosdep update
       cd ./isaac_ros_apriltag
       bloom-generate rosdebian
       fakeroot debian/rules binary
