@@ -1,0 +1,11 @@
+build-job:
+  stage: build
+  tags:
+    - jetson
+  script:
+    - |
+      source /opt/ros/humble/setup.bash
+      rosdep update
+      cd ./isaac_ros_apriltag
+      bloom-generate rosdebian
+      fakeroot debian/rules binary
