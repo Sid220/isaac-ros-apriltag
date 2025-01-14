@@ -9,11 +9,9 @@ set -e
 
 sudo apt install python3-bloom python3-rosdep fakeroot debhelper dh-python -y
 
-git clone https://github.com/Sid220/isaac_ros_apriltag isaac_ros_apriltag && cd isaac_ros_apriltag
+git clone https://git.sidtrz.com/slamdunk/isaac-ros-apriltag isaac_ros_apriltag && cd isaac_ros_apriltag
 
-cp isaac.yaml /opt/ros/isaac.yaml
-
-echo "yaml file:///opt/ros/isaac.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/20-default.list
+echo "yaml https://git.sidtrz.com/slamdunk/isaac-ros-apriltag/-/raw/master/isaac.yaml?ref_type=heads" | sudo tee -a /etc/ros/rosdep/sources.list.d/20-default.list
 
 rosdep update
 
