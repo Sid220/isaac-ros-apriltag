@@ -1,0 +1,12 @@
+isaac_ros_common:
+  ubuntu: [ ros-humble-isaac-ros-common ]
+isaac_ros_image_proc:
+  ubuntu: [ ros-humble-isaac-ros-image-proc ]
+isaac_ros_managed_nitros:
+  ubuntu: [ ros-humble-isaac-ros-managed-nitros ]
+isaac_ros_nitros:
+  ubuntu: [ ros-humble-isaac-ros-nitros ]
+isaac_ros_nitros_image_type:
+  ubuntu: [ ros-humble-isaac-ros-nitros-image-type ]
+isaac_ros_test:
+  ubuntu: [ ros-humble-isaac-ros-test ]
