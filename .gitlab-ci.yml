@@ -9,3 +9,7 @@ build-job:
       cd ./isaac_ros_apriltag
       bloom-generate rosdebian
       fakeroot debian/rules binary
+  artifacts:
+    paths:
+      - *.deb
+      - *.ddeb
