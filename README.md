@@ -1,4 +1,6 @@
 # Isaac ROS AprilTag
+> [!Note]
+> This repo is a fork of [NVIDIA-ISAAC-ROS/isaac_ros_apriltag](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_apriltag), aimed at being an <i>actual</i> drop-in replacement for [christianrauch/apriltag_ros](https://github.com/christianrauch/apriltag_ros/tree/master) or [ros-misc-utilities/apriltag_detector](https://github.com/ros-misc-utilities/apriltag_detector), using the standard [christianrauch/apriltag_msgs](https://github.com/christianrauch/apriltag_msgs).
 
 NVIDIA-accelerated AprilTag detection and pose estimation.
 
