@@ -11,5 +11,5 @@ build-job:
       fakeroot debian/rules binary
   artifacts:
     paths:
-      - *.deb
-      - *.ddeb
+      - ./*.deb
+      - ./*.ddeb
