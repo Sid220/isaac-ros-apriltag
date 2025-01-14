@@ -333,7 +333,7 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
       }
 
       // hamming
-      msg_detection.hamming = detection.hamming_error;
+      // msg_detection.hamming = detection.hamming_error;
 
       // center
       msg_detection.centre.x = detection.center.x;
@@ -518,6 +518,8 @@ struct AprilTagNode::CUAprilTagImpl : AprilTagNode::AprilTagImpl
       msg_detection.centre.x = (intercept_2 - intercept_1) / (slope_1 - slope_2);
       msg_detection.centre.y = (slope_2 * intercept_1 - slope_1 * intercept_2) /
         (slope_2 - slope_1);
+
+      // hamming
       msg_detection.hamming = detection.hamming_error;
 
       // Timestamped Pose3 transform
