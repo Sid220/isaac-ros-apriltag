@@ -10,6 +10,8 @@ build-job:
       bloom-generate rosdebian
       fakeroot debian/rules binary
       export DEB_FILE=$(basename $(find . -type f -name "*.deb" | head -n 1))
+      pwd
+      ls -la
       echo "Found deb at: $DEB_FILE"
       curl --location --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
            --upload-file "$DEB_FILE" \
