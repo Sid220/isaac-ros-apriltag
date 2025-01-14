@@ -9,7 +9,8 @@ build-job:
       cd ./isaac_ros_apriltag
       bloom-generate rosdebian
       fakeroot debian/rules binary
-      export DEB_FILE=$(basename $(find . -maxdepth 1 -type f -name "*.deb" | head -n 1))
+      export DEB_FILE=$(basename $(find . -type f -name "*.deb" | head -n 1))
+      echo "Found deb at: $DEB_FILE"
       curl --location --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
            --upload-file "$DEB_FILE" \
            "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/isaac-ros-apriltag/${CI_COMMIT_TAG}/$DEB_FILE"
