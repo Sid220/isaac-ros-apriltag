@@ -106,6 +106,8 @@ struct AprilTagNode::AprilTagImpl
     (void)camera_info;
     assert(!IsInitialized() && "Already initialized.");
 
+    RCLCPP_ERROR(node.get_logger(), "%dx%d", image_width, image_height);
+
     initialized_ = true;
 
     tag_family_str_ = node.tag_family_;
