@@ -559,7 +559,7 @@ AprilTagNode::AprilTagNode(const rclcpp::NodeOptions & options)
   tile_size_(declare_parameter<uint16_t>("tile_size", 4)),
   tag_family_(declare_parameter<std::string>("tag_family", "tag36h11")),
   image_width_(declare_parameter<int>("image_width", 800)),
-  image_height_(declare_parameter<int>("image_width", 600)),
+  image_height_(declare_parameter<int>("image_height", 600)),
 
   backends_{::isaac_ros::common::DeclareVPIBackendParameter(this, VPI_BACKEND_CUDA)},
   image_sub_{},
