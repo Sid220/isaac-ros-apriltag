@@ -221,8 +221,8 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
     // Detector
     CHECK_STATUS(
       vpiCreateAprilTagDetector(
-        node.backends_, camera_info->width,
-        camera_info->height, &params_, &detector_));
+        node.backends_, image_width_,
+        image_height_, &params_, &detector_));
 
 
     // Input image placeholder
@@ -232,8 +232,8 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
     data->buffer.pitch.numPlanes = 1;
     data->buffer.pitch.planes[0].data =
       const_cast<void *>(reinterpret_cast<const void *>(nitros_image_view.GetGpuData()));
-    data->buffer.pitch.planes[0].height = camera_info->height;
-    data->buffer.pitch.planes[0].width = camera_info->width;
+    data->buffer.pitch.planes[0].height = image_width_;
+    data->buffer.pitch.planes[0].width = image_height_;
     data->buffer.pitch.planes[0].pixelType = VPI_PIXEL_TYPE_DEFAULT;
     data->buffer.pitch.planes[0].pitchBytes = nitros_image_view.GetStride();
     CHECK_STATUS(vpiImageCreateWrapper(data, nullptr, VPI_BACKEND_CUDA, &input_image_));
@@ -248,7 +248,7 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
     // Input monochrome image
     CHECK_STATUS(
       vpiImageCreate(
-        camera_info->width, camera_info->height,
+        image_width_, image_height_,
         VPI_IMAGE_FORMAT_U8, 0, &input_monochrome_image_));
   }
 
@@ -440,7 +440,7 @@ struct AprilTagNode::CUAprilTagImpl : AprilTagNode::AprilTagImpl
 
     // Create AprilTags detector instance and get handle
     const int error = nvCreateAprilTagsDetector(
-      &detector_, camera_info->width, camera_info->height, node.tile_size_,
+      &detector_, image_width_, image_height_, node.tile_size_,
       ToCuAprilTagsFamily(tag_family_), &cam_intrinsics_, node.size_);
     if (error != 0) {
       throw std::runtime_error(
@@ -558,6 +558,9 @@ AprilTagNode::AprilTagNode(const rclcpp::NodeOptions & options)
   size_(declare_parameter<double>("size", 0.22)),
   tile_size_(declare_parameter<uint16_t>("tile_size", 4)),
   tag_family_(declare_parameter<std::string>("tag_family", "tag36h11")),
+  image_width_(declare_parameter<int>("image_width", 800)),
+  image_height_(declare_parameter<int>("image_width", 600)),
+
   backends_{::isaac_ros::common::DeclareVPIBackendParameter(this, VPI_BACKEND_CUDA)},
   image_sub_{},
   camera_info_sub_{},

@@ -68,6 +68,8 @@ private:
   const uint32_t tile_size_;
   const std::string tag_family_;
   const uint32_t backends_;
+  const int image_width_;
+  const int image_height_;
 
   // Subscribers
   template<typename T>
