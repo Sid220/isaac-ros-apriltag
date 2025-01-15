@@ -232,8 +232,8 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
     data->buffer.pitch.numPlanes = 1;
     data->buffer.pitch.planes[0].data =
       const_cast<void *>(reinterpret_cast<const void *>(nitros_image_view.GetGpuData()));
-    data->buffer.pitch.planes[0].height = image_width;
-    data->buffer.pitch.planes[0].width = image_height;
+    data->buffer.pitch.planes[0].height = image_height;
+    data->buffer.pitch.planes[0].width = image_width;
     data->buffer.pitch.planes[0].pixelType = VPI_PIXEL_TYPE_DEFAULT;
     data->buffer.pitch.planes[0].pitchBytes = nitros_image_view.GetStride();
     CHECK_STATUS(vpiImageCreateWrapper(data, nullptr, VPI_BACKEND_CUDA, &input_image_));
@@ -558,10 +558,13 @@ AprilTagNode::AprilTagNode(const rclcpp::NodeOptions & options)
   size_(declare_parameter<double>("size", 0.22)),
   tile_size_(declare_parameter<uint16_t>("tile_size", 4)),
   tag_family_(declare_parameter<std::string>("tag_family", "tag36h11")),
+
+
+  backends_{::isaac_ros::common::DeclareVPIBackendParameter(this, VPI_BACKEND_CUDA)},
+
   image_width_(declare_parameter<int>("image_width", 800)),
   image_height_(declare_parameter<int>("image_height", 600)),
 
-  backends_{::isaac_ros::common::DeclareVPIBackendParameter(this, VPI_BACKEND_CUDA)},
   image_sub_{},
   camera_info_sub_{},
   camera_image_sync_{ExactPolicy{3}, image_sub_, camera_info_sub_},
