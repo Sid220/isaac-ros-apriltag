@@ -100,7 +100,7 @@ struct AprilTagNode::AprilTagImpl
   virtual void Initialize(
     const AprilTagNode & node,
     const nvidia::isaac_ros::nitros::NitrosImageView & nitros_image_view,
-    const sensor_msgs::msg::CameraInfo::ConstSharedPtr & camera_info)
+    const sensor_msgs::msg::CameraInfo::ConstSharedPtr & camera_info, int image_width, int image_height)
   {
     (void)nitros_image_view;
     (void)camera_info;
@@ -191,9 +191,9 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
   void Initialize(
     const AprilTagNode & node,
     const nvidia::isaac_ros::nitros::NitrosImageView & nitros_image_view,
-    const sensor_msgs::msg::CameraInfo::ConstSharedPtr & camera_info) override
+    const sensor_msgs::msg::CameraInfo::ConstSharedPtr & camera_info, int image_width, int image_height) override
   {
-    AprilTagNode::AprilTagImpl::Initialize(node, nitros_image_view, camera_info);
+    AprilTagNode::AprilTagImpl::Initialize(node, nitros_image_view, camera_info, image_width, image_height);
 
     try {
       CHECK_STATUS(vpiStreamCreate(node.backends_ | VPI_BACKEND_CPU | VPI_BACKEND_CUDA, &stream_));
@@ -221,8 +221,8 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
     // Detector
     CHECK_STATUS(
       vpiCreateAprilTagDetector(
-        node.backends_, image_width_,
-        image_height_, &params_, &detector_));
+        node.backends_, image_width,
+        image_height, &params_, &detector_));
 
 
     // Input image placeholder
@@ -232,8 +232,8 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
     data->buffer.pitch.numPlanes = 1;
     data->buffer.pitch.planes[0].data =
       const_cast<void *>(reinterpret_cast<const void *>(nitros_image_view.GetGpuData()));
-    data->buffer.pitch.planes[0].height = image_width_;
-    data->buffer.pitch.planes[0].width = image_height_;
+    data->buffer.pitch.planes[0].height = image_width;
+    data->buffer.pitch.planes[0].width = image_height;
     data->buffer.pitch.planes[0].pixelType = VPI_PIXEL_TYPE_DEFAULT;
     data->buffer.pitch.planes[0].pitchBytes = nitros_image_view.GetStride();
     CHECK_STATUS(vpiImageCreateWrapper(data, nullptr, VPI_BACKEND_CUDA, &input_image_));
@@ -248,7 +248,7 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
     // Input monochrome image
     CHECK_STATUS(
       vpiImageCreate(
-        image_width_, image_height_,
+        image_width, image_height,
         VPI_IMAGE_FORMAT_U8, 0, &input_monochrome_image_));
   }
 
@@ -426,9 +426,9 @@ struct AprilTagNode::CUAprilTagImpl : AprilTagNode::AprilTagImpl
   void Initialize(
     const AprilTagNode & node,
     const nvidia::isaac_ros::nitros::NitrosImageView & nitros_image_view,
-    const sensor_msgs::msg::CameraInfo::ConstSharedPtr & camera_info) override
+    const sensor_msgs::msg::CameraInfo::ConstSharedPtr & camera_info, int image_width, int image_height) override
   {
-    AprilTagNode::AprilTagImpl::Initialize(node, nitros_image_view, camera_info);
+    AprilTagNode::AprilTagImpl::Initialize(node, nitros_image_view, camera_info, image_width, image_height);
 
     // Get camera intrinsics
     const double * k = camera_info->k.data();
@@ -440,7 +440,7 @@ struct AprilTagNode::CUAprilTagImpl : AprilTagNode::AprilTagImpl
 
     // Create AprilTags detector instance and get handle
     const int error = nvCreateAprilTagsDetector(
-      &detector_, image_width_, image_height_, node.tile_size_,
+      &detector_, image_width, image_height, node.tile_size_,
       ToCuAprilTagsFamily(tag_family_), &cam_intrinsics_, node.size_);
     if (error != 0) {
       throw std::runtime_error(
@@ -609,7 +609,7 @@ void AprilTagNode::CameraImageCallback(
 {
   auto nitros_image_view = nvidia::isaac_ros::nitros::NitrosImageView(*nitros_image);
   if (!impl_->IsInitialized()) {
-    impl_->Initialize(*this, nitros_image_view, camera_info);
+    impl_->Initialize(*this, nitros_image_view, camera_info, image_width_, image_height_);
   }
 
   impl_->OnCameraFrame(*this, nitros_image_view, camera_info);
