@@ -327,11 +327,11 @@ struct AprilTagNode::VPIAprilTagImpl : AprilTagNode::AprilTagImpl
       // corners
       for (int corner_idx = 0; corner_idx < 4; corner_idx++) {
         // Corners are in reverse order from expected
-        int dest_corner_idx = 3 - corner_idx;
+        // int dest_corner_idx = 3 - corner_idx;
         msg_detection.corners.data()[corner_idx].x =
-          detection.corners[dest_corner_idx].x;
+          detection.corners[corner_idx].x;
         msg_detection.corners.data()[corner_idx].y =
-          detection.corners[dest_corner_idx].y;
+          detection.corners[corner_idx].y;
       }
 
       // hamming
@@ -502,10 +502,12 @@ struct AprilTagNode::CUAprilTagImpl : AprilTagNode::AprilTagImpl
 
       // corners
       for (int corner_idx = 0; corner_idx < 4; corner_idx++) {
+        // Corners are in reverse order from expected
+        int dest_corner_idx = 3 - corner_idx;
         msg_detection.corners.data()[corner_idx].x =
-          detection.corners[corner_idx].x;
+          detection.corners[dest_corner_idx].x;
         msg_detection.corners.data()[corner_idx].y =
-          detection.corners[corner_idx].y;
+          detection.corners[dest_corner_idx].y;
       }
 
       // center

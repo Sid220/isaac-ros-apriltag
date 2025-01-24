@@ -4,6 +4,7 @@ set -e
 # Ensure you've set up dev environment: https://nvidia-isaac-ros.github.io/getting_started/dev_env_setup.html
 # Ensure you've set ISAAC's apt repo: https://nvidia-isaac-ros.github.io/getting_started/isaac_apt_repository.html
 # Follow Jetson Setup for VPI: https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/compute/jetson_vpi.html
+# Ensure you've initialised rosdep: $ sudo rosdep init
 
 ## Following: https://docs.ros.org/en/humble/How-To-Guides/Building-a-Custom-Deb-Package.html
 
