@@ -1,4 +1,7 @@
 # Isaac ROS AprilTag
+
+[![NVIDIA AprilTag status](https://git.sidtrz.com/slamdunk/isaac-ros-apriltag/badges/master/pipeline.svg)](https://git.sidtrz.com/slamdunk/isaac-ros-apriltag/-/commits/master)
+
 > [!Note]
 > This repo is a fork of [NVIDIA-ISAAC-ROS/isaac_ros_apriltag](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_apriltag), aimed at being an <i>actual</i> drop-in replacement for [christianrauch/apriltag_ros](https://github.com/christianrauch/apriltag_ros/tree/master) or [ros-misc-utilities/apriltag_detector](https://github.com/ros-misc-utilities/apriltag_detector), using the standard [christianrauch/apriltag_msgs](https://github.com/christianrauch/apriltag_msgs). You can download binaries from the [package registry](https://git.sidtrz.com/slamdunk/isaac-ros-apriltag/-/packages/3).
 
