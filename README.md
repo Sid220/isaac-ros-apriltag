@@ -86,3 +86,7 @@ Please visit the [Isaac ROS Documentation](https://nvidia-isaac-ros.github.io/re
 ## Latest
 
 Update 2024-12-10: Added PVA and CPU backends for detector with support for new tag families
+
+---
+
+Copyright 2025 Sidney Trzepacz. All Rights Reserved.
